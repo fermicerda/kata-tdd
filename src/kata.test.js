@@ -56,3 +56,8 @@ test('should allow delimiters larger than 1 character using "[]"', () => {
     expect(add('//[g]\n1g2,3')).toBe(6);
 });
 
+test('should support multiple delimiters using "[]"', () => {
+    expect(add('//[**][pp]\n5**2pp5')).toBe(12);
+    expect(add('//[v][c][d]\n1d2c3')).toBe(6);
+});
+
