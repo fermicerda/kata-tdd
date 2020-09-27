@@ -18,9 +18,21 @@ function add (s) {
 
         let separatorRegex = RegExp(contentRegex);
 
-        return s.split(separatorRegex).reduce((previousValue, currentValue) => {
-            return parseInt(currentValue) + previousValue;
+        let negativeNumbers = [];
+
+        let res = s.split(separatorRegex).reduce((previousValue, currentValue) => {
+            let currValueParsed = parseInt(currentValue);
+
+            if (currValueParsed < 0)
+                negativeNumbers.push(currValueParsed);
+
+            return currValueParsed + previousValue;
         }, 0);
+
+        if (negativeNumbers.length > 0)
+            throw new Error('negatives not allowed: ' + negativeNumbers.join(', '));
+
+        return res;
     }
     return 0;
 }

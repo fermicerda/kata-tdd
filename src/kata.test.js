@@ -32,3 +32,16 @@ test('should support adding delimiter in the beginning "//"', () => {
     expect(add('//;\n5;5')).toBe(10);
 });
 
+test('should throw error when there is at least one negative number', () => {
+    expect(() => {add('-1,5')}).toThrow();
+});
+
+test('should throw error when there is at least one negative number with message "negatives not allowed"', () => {
+    expect(() => {add('//;\n5,-1')}).toThrow('negatives not allowed: -1');
+});
+
+test('should throw describing error when there is at least one negative number', () => {
+    expect(() => {add('-2,-5')}).toThrow('negatives not allowed: -2, -5');
+});
+
+
