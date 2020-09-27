@@ -1,5 +1,12 @@
 const possibleSeparators = ['\n', ','];
 const prefixDelimiter = '//';
+const delimiterMultiCharBegin = '[';
+const delimiterMultiCharEnd = ']';
+
+
+function escapeRegex(string) {
+    return string.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
+}
 
 function add (s) {
 
@@ -12,7 +19,13 @@ function add (s) {
             if (firstNewLine < 0)
                 return 0;
 
-            contentRegex += '|' + s.substring(prefixDelimiter.length, firstNewLine);
+            let customDelimiter = s.substring(prefixDelimiter.length, firstNewLine);
+
+            if (customDelimiter.startsWith(delimiterMultiCharBegin) && customDelimiter.endsWith(delimiterMultiCharEnd))
+                customDelimiter = customDelimiter.substring(delimiterMultiCharBegin.length, customDelimiter.length - delimiterMultiCharEnd.length);
+
+
+            contentRegex += '|' + escapeRegex(customDelimiter);
             s = s.substring(firstNewLine + 1);
         }
 
@@ -26,7 +39,7 @@ function add (s) {
             if (currValueParsed < 0)
                 negativeNumbers.push(currValueParsed);
 
-            return currValueParsed + previousValue;
+            return previousValue + ((currValueParsed > 1000) ? 0 : currValueParsed);
         }, 0);
 
         if (negativeNumbers.length > 0)

@@ -44,4 +44,15 @@ test('should throw describing error when there is at least one negative number',
     expect(() => {add('-2,-5')}).toThrow('negatives not allowed: -2, -5');
 });
 
+test('should be ignored when numbers are bigger than 1000', () => {
+    expect(add('5,1002,5')).toBe(10);
+    expect(add('1000,1000,5')).toBe(2005);
+    expect(add('1000,1001,5')).toBe(1005);
+});
+
+test('should allow delimiters larger than 1 character using "[]"', () => {
+    expect(add('//[***]\n5***2***5')).toBe(12);
+    expect(add('//[vv]\n1vv2')).toBe(3);
+    expect(add('//[g]\n1g2,3')).toBe(6);
+});
 
